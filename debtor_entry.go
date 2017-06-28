@@ -6,7 +6,7 @@ import (
 )
 
 type ecoTime struct {
-	time.Time
+	T time.Time
 }
 
 func (et *ecoTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
@@ -17,7 +17,7 @@ func (et *ecoTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	if err != nil {
 		return err
 	}
-	*et = ecoTime{t}
+	et.T = t
 	return nil
 }
 
