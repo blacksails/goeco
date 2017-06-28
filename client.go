@@ -56,6 +56,9 @@ func (c Client) call(req, res interface{}) error {
 	if err != nil {
 		return err
 	}
+	if fault := soapEnvel.Body.Fault; fault != nil {
+		return fault
+	}
 	return nil
 }
 

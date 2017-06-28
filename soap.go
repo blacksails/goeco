@@ -10,18 +10,32 @@ type soapEnvelope struct {
 	Body soapBody `xml:"http://www.w3.org/2003/05/soap-envelope Body"`
 }
 
-type soapFault struct {
-	XMLName xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Fault"`
+// SOAPFault is the error return on failing SOAP api calls
+type SOAPFault struct {
+	XMLName xml.Name `xml:"http://www.w3.org/2003/05/soap-envelope Fault"`
 
-	Code   string `xml:"faultcode,omitempty"`
-	String string `xml:"faultstring,omitempty"`
-	Actor  string `xml:"faultactor,omitempty"`
-	Detail string `xml:"detail,omitempty"`
+	Reason soapReason `xml:"http://www.w3.org/2003/05/soap-envelope Reason"`
+	Code   soapCode   `xml:"http://www.w3.org/2003/05/soap-envelope Code"`
+	Detail soapDetail `xml:"http://www.w3.org/2003/05/soap-envelope Detail"`
 }
+
+func (f *SOAPFault) Error() string {
+	return f.Reason.Text
+}
+
+type soapReason struct {
+	Text string `xml:"http://www.w3.org/2003/05/soap-envelope Text"`
+}
+
+type soapCode struct {
+	Value string `xml:"http://www.w3.org/2003/05/soap-envelope Value"`
+}
+
+type soapDetail struct{}
 
 type soapBody struct {
 	XMLName xml.Name    `xml:"http://www.w3.org/2003/05/soap-envelope Body"`
-	Fault   *soapFault  `xml:",omitempty"`
+	Fault   *SOAPFault  `xml:",omitempty"`
 	Content interface{} `xml:",omitempty"`
 }
 
@@ -49,8 +63,8 @@ Loop:
 			if consumed {
 				return xml.UnmarshalError("Found multiple elements inside SOAP body; not wrapped-document/literal WS-I compliant")
 			}
-			if se.Name.Space == "http://schemas.xmlsoap.org/soap/envelope/" && se.Name.Local == "Fault" {
-				b.Fault = &soapFault{}
+			if se.Name.Space == "http://www.w3.org/2003/05/soap-envelope" && se.Name.Local == "Fault" {
+				b.Fault = &SOAPFault{}
 				b.Content = nil
 				err = d.DecodeElement(b.Fault, &se)
 				if err != nil {
