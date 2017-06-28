@@ -15,8 +15,8 @@ type Client struct {
 }
 
 // New instantiates a new Client with the given token and app token
-func New(token, appToken string) Client {
-	return Client{
+func New(token, appToken string) *Client {
+	return &Client{
 		token:    token,
 		appToken: appToken,
 	}
