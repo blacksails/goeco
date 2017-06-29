@@ -4,13 +4,14 @@ import "encoding/xml"
 
 // SubscriberData represents data of a subscriber
 type SubscriberData struct {
-	StartDate           ecoTime `xml:"StartDate"`
-	RegisteredDate      ecoTime `xml:"RegisteredDate"`
-	EndDate             ecoTime `xml:"EndDate"`
-	ExpiryDate          ecoTime `xml:"ExpiryDate"`
-	ExtraTextForInvoice string  `xml:"ExtraTextForInvoice"`
-	SpecialPrice        float64 `xml:"SpecialPrice"`
-	QuantityFactor      float64 `xml:"QuantityFactor"`
+	SubscriptionHandle  subscriptionHandle `xml:"SubscriptionHandle"`
+	StartDate           ecoTime            `xml:"StartDate"`
+	RegisteredDate      ecoTime            `xml:"RegisteredDate"`
+	EndDate             ecoTime            `xml:"EndDate"`
+	ExpiryDate          ecoTime            `xml:"ExpiryDate"`
+	ExtraTextForInvoice string             `xml:"ExtraTextForInvoice"`
+	SpecialPrice        float64            `xml:"SpecialPrice"`
+	QuantityFactor      float64            `xml:"QuantityFactor"`
 }
 
 type subscriberHandle struct {
