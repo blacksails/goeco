@@ -84,3 +84,31 @@ func (c Client) DebtorGetOpenEntries(handle int) ([]int, error) {
 	}
 	return handles, nil
 }
+
+type debtorGetSubscribersResponse struct {
+	XMLName                    xml.Name                   `xml:"http://e-conomic.com Debtor_GetSubscribersResponse"`
+	DebtorGetSubscribersResult debtorGetSubscribersResult `xml:"Debtor_GetSubscribersResult"`
+}
+
+type debtorGetSubscribersResult struct {
+	SubscriberHandles []subscriberHandle `xml:"SubscriberHandle"`
+}
+
+type debtorGetSubscribers struct {
+	XMLName      xml.Name     `xml:"http://e-conomic.com Debtor_GetSubscribers"`
+	DebtorHandle debtorHandle `xml:"debtorHandle"`
+}
+
+// DebtorGetSubscribers gets the handles of the subscribers tied to the debtor
+func (c Client) DebtorGetSubscribers(handle int) ([]int, error) {
+	res := &debtorGetSubscribersResponse{}
+	err := c.call(debtorGetSubscribers{DebtorHandle: debtorHandle{Number: handle}}, res)
+	if err != nil {
+		return []int{}, err
+	}
+	sHandles := make([]int, len(res.DebtorGetSubscribersResult.SubscriberHandles))
+	for i, handle := range res.DebtorGetSubscribersResult.SubscriberHandles {
+		sHandles[i] = handle.SubscriberID
+	}
+	return sHandles, nil
+}

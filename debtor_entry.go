@@ -2,23 +2,12 @@ package goeco
 
 import (
 	"encoding/xml"
-	"time"
 )
 
-type ecoTime struct {
-	T time.Time
-}
-
-func (et *ecoTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-	var timeStr string
-	ecoLayout := "2006-01-02T15:04:05"
-	d.DecodeElement(&timeStr, &start)
-	t, err := time.Parse(ecoLayout, timeStr)
-	if err != nil {
-		return err
-	}
-	et.T = t
-	return nil
+// DebtorEntryData contains data about a debtor entry
+type DebtorEntryData struct {
+	DueDate                  ecoTime `xml:"DueDate"`
+	RemainderDefaultCurrency float64 `xml:"RemainderDefaultCurrency"`
 }
 
 type entryHandle struct {
@@ -41,12 +30,6 @@ type debtorEntryGetDataArray struct {
 
 type debtorEntryGetDataArrayResult struct {
 	DebtorEntryDatas []DebtorEntryData `xml:"DebtorEntryData"`
-}
-
-// DebtorEntryData contains data about a debtor entry
-type DebtorEntryData struct {
-	DueDate                  ecoTime `xml:"DueDate"`
-	RemainderDefaultCurrency float64 `xml:"RemainderDefaultCurrency"`
 }
 
 // DebtorEntryGetDataArray gets a list of debtor entry data from a list of entry handles
