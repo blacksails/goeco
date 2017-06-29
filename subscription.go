@@ -4,6 +4,7 @@ import "encoding/xml"
 
 // SubscriptionData represents a subscription
 type SubscriptionData struct {
+	ID          int    `xml:"Id"`
 	Name        string `xml:"Name"`
 	Description string `xml:"Description"`
 }
