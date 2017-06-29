@@ -29,6 +29,7 @@ type subscriberGetDataArrayResult struct {
 }
 
 type subscriberGetDataArray struct {
+	XMLName       xml.Name          `xml:"http://e-conomic.com Subscriber_GetDataArray"`
 	EntityHandles subscriberHandles `xml:"entityHandles"`
 }
 
