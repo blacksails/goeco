@@ -15,8 +15,7 @@ type SubscriberData struct {
 }
 
 type subscriberHandle struct {
-	SubscriberID       int                `xml:"SubscriberId"`
-	SubscriptionHandle subscriptionHandle `xml:"SubscriptionHandle"`
+	SubscriberID int `xml:"SubscriberId"`
 }
 
 type subscriberGetDataArrayResponse struct {
