@@ -4,6 +4,7 @@ import "encoding/xml"
 
 // SubscriberData represents data of a subscriber
 type SubscriberData struct {
+	SubscriberID        int                `xml:"SubscriberId"`
 	SubscriptionHandle  subscriptionHandle `xml:"SubscriptionHandle"`
 	StartDate           ecoTime            `xml:"StartDate"`
 	RegisteredDate      ecoTime            `xml:"RegisteredDate"`
